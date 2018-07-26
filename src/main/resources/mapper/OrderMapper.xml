@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.model.Order">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_info" jdbcType="VARCHAR" property="orderInfo" />
+    <result column="start_place" jdbcType="VARCHAR" property="startPlace" />
+    <result column="end_place" jdbcType="VARCHAR" property="endPlace" />
+    <result column="trans_way" jdbcType="VARCHAR" property="transWay" />
+    <result column="client_company_name" jdbcType="VARCHAR" property="clientCompanyName" />
+    <result column="client_address" jdbcType="VARCHAR" property="clientAddress" />
+    <result column="client_phone" jdbcType="VARCHAR" property="clientPhone" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+</mapper>
