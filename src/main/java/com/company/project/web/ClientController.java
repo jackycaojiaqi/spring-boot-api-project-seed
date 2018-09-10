@@ -6,6 +6,9 @@ import com.company.project.service.ClientService;
 import com.company.project.util.StringUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +18,7 @@ import tk.mybatis.mapper.entity.Condition;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
 * Created by CodeGenerator on 2018/07/24.
@@ -25,6 +29,25 @@ public class ClientController {
     @Resource
     private ClientService clientService;
 
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
+
+
+    @PostMapping("/addRedis")
+    public Result addRedis(Client client) {
+        Gson gson = new Gson();
+        redisTemplate.opsForValue().set("123",gson.toJson(client),6000, TimeUnit.MINUTES);
+        clientService.save(client);
+        return ResultGenerator.genSuccessResult();
+    }
+    @PostMapping("/getRedis")
+    public Result getRedis() {
+        Gson gson = new Gson();
+        Client client = new Client();
+        String clidet_str  =   redisTemplate.opsForValue().get("123");
+        client = gson.fromJson(clidet_str,Client.class);
+        return ResultGenerator.genSuccessResult(client);
+    }
     @PostMapping("/add")
     public Result add(Client client) {
         clientService.save(client);
